@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  RESTAURANT_OWNER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(CUSTOMER)
+  address   String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  restaurants Restaurant[] // If owner
+  orders      Order[]
+}
+
+model Restaurant {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  cuisine     String
+  address     String
+  rating      Float    @default(0.0)
+  imageUrl    String?
+  ownerId     String   @db.ObjectId
+  owner       User     @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  menuItems MenuItem[]
+  orders    Order[]
+}
+
+model MenuItem {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String?
+  price        Float
+  category     String
+  imageUrl     String?
+  isAvailable  Boolean  @default(true)
+  restaurantId String   @db.ObjectId
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String      @db.ObjectId
+  user         User        @relation(fields: [userId], references: [id])
+  restaurantId String      @db.ObjectId
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+  status       OrderStatus @default(PENDING)
+  totalAmount  Float
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  items OrderItem[]
+}
+
+type OrderItem {
+  menuItemId String   @db.ObjectId
+  name       String
+  quantity   Int
+  price      Float
+}
