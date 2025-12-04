@@ -13,6 +13,7 @@ import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import AdminDashboard from './pages/AdminDashboard';
 import Profile from './pages/Profile';
+import GoogleAuthSuccess from './pages/GoogleAuthSuccess';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/auth/google/success" element={<GoogleAuthSuccess />} />
               <Route path="/restaurants" element={<Restaurants />} />
               <Route path="/restaurant/:id" element={<RestaurantMenu />} />
               <Route

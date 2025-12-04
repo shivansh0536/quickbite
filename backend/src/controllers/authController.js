@@ -184,3 +184,18 @@ exports.deleteAccount = async (req, res) => {
     }
 };
 
+exports.googleAuthCallback = async (req, res) => {
+    try {
+        const token = generateToken(req.user.id, req.user.role);
+
+        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/auth/google/success?token=${token}&user=${encodeURIComponent(JSON.stringify({
+            id: req.user.id,
+            name: req.user.name,
+            email: req.user.email,
+            role: req.user.role
+        }))}`);
+    } catch (error) {
+        console.error(error);
+        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=auth_failed`);
+    }
+};
