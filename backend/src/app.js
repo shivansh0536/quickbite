@@ -11,8 +11,7 @@ app.use(cors({
         'http://localhost:5173',
         'http://localhost:3000',
         'https://quickbite-06lx.onrender.com',
-        // Add your Vercel URL after deployment:
-        // 'https://your-app.vercel.app'
+        'https://quickbite-swart.vercel.app'
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
