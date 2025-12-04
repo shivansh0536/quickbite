@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { ShoppingCart, User, LogOut, UtensilsCrossed } from 'lucide-react';
+import { ShoppingCart, User, LogOut, UtensilsCrossed, Menu, X } from 'lucide-react';
+import { useState } from 'react';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -14,7 +16,8 @@ const Navbar = () => {
                         <span className="text-2xl font-bold text-gray-900">QuickBite</span>
                     </Link>
 
-                    <div className="flex items-center space-x-6">
+                    {/* Desktop Menu */}
+                    <div className="hidden md:flex items-center space-x-6">
                         <Link to="/restaurants" className="text-gray-700 hover:text-primary-600 font-medium">
                             Restaurants
                         </Link>
@@ -69,7 +72,105 @@ const Navbar = () => {
                             </div>
                         )}
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="md:hidden text-gray-700"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    >
+                        {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                    </button>
                 </div>
+
+                {/* Mobile Menu */}
+                {mobileMenuOpen && (
+                    <div className="md:hidden border-t py-4 space-y-3">
+                        <Link
+                            to="/restaurants"
+                            className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            Restaurants
+                        </Link>
+
+                        {user ? (
+                            <>
+                                {user.role === 'CUSTOMER' && (
+                                    <>
+                                        <Link
+                                            to="/cart"
+                                            className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                                            onClick={() => setMobileMenuOpen(false)}
+                                        >
+                                            Cart
+                                        </Link>
+                                        <Link
+                                            to="/orders"
+                                            className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                                            onClick={() => setMobileMenuOpen(false)}
+                                        >
+                                            Orders
+                                        </Link>
+                                    </>
+                                )}
+
+                                {user.role === 'RESTAURANT_OWNER' && (
+                                    <Link
+                                        to="/dashboard"
+                                        className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        Dashboard
+                                    </Link>
+                                )}
+
+                                {user.role === 'ADMIN' && (
+                                    <Link
+                                        to="/admin"
+                                        className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        Admin
+                                    </Link>
+                                )}
+
+                                <Link
+                                    to="/profile"
+                                    className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Profile ({user.name})
+                                </Link>
+                                <button
+                                    onClick={() => {
+                                        logout();
+                                        setMobileMenuOpen(false);
+                                    }}
+                                    className="block w-full text-left text-red-600 hover:text-red-800 font-medium py-2"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    to="/login"
+                                    className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Login
+                                </Link>
+                                <Link
+                                    to="/register"
+                                    className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Sign Up
+                                </Link>
+                            </>
+                        )}
+                    </div>
+                )}
             </div>
         </nav>
     );

@@ -107,20 +107,21 @@ const AdminDashboard = () => {
 
                 {/* Tabs */}
                 <div className="bg-white rounded-lg shadow-md mb-6">
-                    <div className="flex border-b">
+                    <div className="flex border-b overflow-x-auto">
                         {tabs.map((tab) => {
                             const Icon = tab.icon;
                             return (
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex items-center space-x-2 px-6 py-4 font-medium transition-colors ${activeTab === tab.id
+                                    className={`flex items-center space-x-2 px-4 sm:px-6 py-4 font-medium transition-colors whitespace-nowrap ${activeTab === tab.id
                                         ? 'border-b-2 border-primary-600 text-primary-600'
                                         : 'text-gray-600 hover:text-gray-900'
                                         }`}
                                 >
                                     <Icon size={20} />
-                                    <span>{tab.label}</span>
+                                    <span className="hidden sm:inline">{tab.label}</span>
+                                    <span className="sm:hidden text-xs">{tab.label.split(' ')[0]}</span>
                                 </button>
                             );
                         })}
@@ -173,12 +174,47 @@ const AdminDashboard = () => {
 
 // Restaurants Tab Component
 const RestaurantsTab = ({ restaurants, onDelete, onRefresh }) => {
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        description: '',
+        cuisine: '',
+        address: '',
+        imageUrl: ''
+    });
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            await api.post('/restaurants', formData);
+            toast.success('Restaurant created successfully');
+            setShowModal(false);
+            setFormData({ name: '', description: '', cuisine: '', address: '', imageUrl: '' });
+            onRefresh();
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to create restaurant');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div>
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Restaurants ({restaurants.length})</h2>
+                <button
+                    onClick={() => setShowModal(true)}
+                    className="btn-primary flex items-center space-x-2"
+                >
+                    <Plus size={18} />
+                    <span>Add Restaurant</span>
+                </button>
             </div>
-            <div className="overflow-x-auto">
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
@@ -209,6 +245,123 @@ const RestaurantsTab = ({ restaurants, onDelete, onRefresh }) => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-4">
+                {restaurants.map((restaurant) => (
+                    <div key={restaurant.id} className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-start mb-2">
+                            <div className="flex-1">
+                                <h3 className="font-semibold text-lg">{restaurant.name}</h3>
+                                <p className="text-sm text-gray-600">{restaurant.cuisine}</p>
+                            </div>
+                            <button
+                                onClick={() => onDelete(restaurant.id)}
+                                className="text-red-600 hover:text-red-900 ml-2"
+                            >
+                                <Trash2 size={18} />
+                            </button>
+                        </div>
+                        <div className="text-sm text-gray-600">
+                            <p>Rating: {restaurant.rating.toFixed(1)} ⭐</p>
+                            <p className="mt-1">{restaurant.address}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Create Restaurant Modal */}
+            {showModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-bold">Add New Restaurant</h3>
+                            <button onClick={() => setShowModal(false)} className="text-gray-500 hover:text-gray-700">
+                                <X size={24} />
+                            </button>
+                        </div>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Restaurant Name *
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    className="input-field"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Description *
+                                </label>
+                                <textarea
+                                    value={formData.description}
+                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    className="input-field"
+                                    rows="3"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Cuisine *
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.cuisine}
+                                    onChange={(e) => setFormData({ ...formData, cuisine: e.target.value })}
+                                    className="input-field"
+                                    placeholder="e.g., Italian, Chinese, Indian"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Address *
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.address}
+                                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                    className="input-field"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Image URL
+                                </label>
+                                <input
+                                    type="url"
+                                    value={formData.imageUrl}
+                                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                                    className="input-field"
+                                    placeholder="https://example.com/image.jpg"
+                                />
+                            </div>
+                            <div className="flex space-x-4 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                    className="btn-secondary flex-1"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="btn-primary flex-1 disabled:opacity-50"
+                                >
+                                    {loading ? 'Creating...' : 'Create Restaurant'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -233,7 +386,8 @@ const UsersTab = ({ users, onDelete, onRefresh }) => {
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Users ({users.length})</h2>
             </div>
-            <div className="overflow-x-auto">
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
@@ -285,6 +439,50 @@ const UsersTab = ({ users, onDelete, onRefresh }) => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-4">
+                {users.map((user) => (
+                    <div key={user.id} className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-start mb-3">
+                            <div className="flex-1">
+                                <h3 className="font-semibold">{user.name}</h3>
+                                <p className="text-sm text-gray-600">{user.email}</p>
+                                <p className="text-sm text-gray-600 mt-1">{user.phone || 'No phone'}</p>
+                            </div>
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={() => setEditingUser(editingUser === user.id ? null : user.id)}
+                                    className="text-blue-600 hover:text-blue-900"
+                                >
+                                    <Edit2 size={18} />
+                                </button>
+                                <button
+                                    onClick={() => onDelete(user.id)}
+                                    className="text-red-600 hover:text-red-900"
+                                >
+                                    <Trash2 size={18} />
+                                </button>
+                            </div>
+                        </div>
+                        {editingUser === user.id ? (
+                            <select
+                                defaultValue={user.role}
+                                onChange={(e) => handleUpdateRole(user.id, e.target.value)}
+                                className="input-field w-full"
+                            >
+                                <option value="CUSTOMER">Customer</option>
+                                <option value="RESTAURANT_OWNER">Restaurant Owner</option>
+                                <option value="ADMIN">Admin</option>
+                            </select>
+                        ) : (
+                            <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                                {user.role}
+                            </span>
+                        )}
+                    </div>
+                ))}
             </div>
         </div>
     );
@@ -353,7 +551,8 @@ const MenuTab = ({ menuItems, onDelete, onRefresh }) => {
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Menu Items ({menuItems.length})</h2>
             </div>
-            <div className="overflow-x-auto">
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
@@ -390,6 +589,36 @@ const MenuTab = ({ menuItems, onDelete, onRefresh }) => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-4">
+                {menuItems.map((item) => (
+                    <div key={item.id} className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-start mb-2">
+                            <div className="flex-1">
+                                <h3 className="font-semibold">{item.name}</h3>
+                                <p className="text-sm text-gray-600">{item.restaurantName}</p>
+                            </div>
+                            <button
+                                onClick={() => onDelete(item.id)}
+                                className="text-red-600 hover:text-red-900 ml-2"
+                            >
+                                <Trash2 size={18} />
+                            </button>
+                        </div>
+                        <div className="flex justify-between items-center text-sm">
+                            <div>
+                                <span className="text-gray-600">{item.category}</span>
+                                <span className="mx-2">•</span>
+                                <span className="font-semibold text-primary-600">₹{item.price}</span>
+                            </div>
+                            <span className={`px-2 py-1 text-xs rounded-full ${item.isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                {item.isAvailable ? 'Available' : 'Unavailable'}
+                            </span>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );
