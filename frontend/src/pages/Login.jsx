@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { Mail, Lock } from 'lucide-react';
 
+// login
+
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth();

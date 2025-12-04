@@ -109,7 +109,7 @@ exports.updateOrderStatus = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-
+// cancel order
 exports.cancelOrder = async (req, res) => {
     try {
         const orderId = req.params.id;
