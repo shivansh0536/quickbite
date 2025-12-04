@@ -96,7 +96,6 @@ const Profile = () => {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold mb-8">My Profile</h1>
 
-                {/* Profile Information */}
                 <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                     <div className="flex items-center space-x-2 mb-4">
                         <User className="text-primary-600" size={24} />
@@ -164,7 +163,6 @@ const Profile = () => {
                     </form>
                 </div>
 
-                {/* Change Password */}
                 <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                     <div className="flex items-center space-x-2 mb-4">
                         <Lock className="text-primary-600" size={24} />
@@ -221,7 +219,6 @@ const Profile = () => {
                     </form>
                 </div>
 
-                {/* Danger Zone */}
                 <div className="bg-white rounded-lg shadow-md p-6 border-2 border-red-200">
                     <div className="flex items-center space-x-2 mb-4">
                         <Trash2 className="text-red-600" size={24} />
@@ -239,7 +236,6 @@ const Profile = () => {
                 </div>
             </div>
 
-            {/* Delete Confirmation Modal */}
             {showDeleteModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 max-w-md mx-4">

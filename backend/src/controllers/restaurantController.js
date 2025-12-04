@@ -100,7 +100,7 @@ exports.updateRestaurant = async (req, res) => {
             return res.status(404).json({ message: 'Restaurant not found' });
         }
 
-        // Check ownership
+
         if (restaurant.ownerId !== req.user.userId && req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Not authorized to update this restaurant' });
         }
@@ -129,7 +129,7 @@ exports.deleteRestaurant = async (req, res) => {
             return res.status(404).json({ message: 'Restaurant not found' });
         }
 
-        // Check ownership
+
         if (restaurant.ownerId !== req.user.userId && req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Not authorized to delete this restaurant' });
         }

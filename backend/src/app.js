@@ -5,7 +5,6 @@ const morgan = require('morgan');
 
 const app = express();
 
-// Middlewares
 app.use(cors({
     origin: [
         'http://localhost:5173',
@@ -28,7 +27,6 @@ const menuRoutes = require('./routes/menuRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/menu', menuRoutes);
@@ -39,7 +37,6 @@ app.get('/', (req, res) => {
     res.send('QuickBite API is running');
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Something went wrong!' });

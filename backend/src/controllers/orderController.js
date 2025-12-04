@@ -2,10 +2,9 @@ const prisma = require('../utils/prisma');
 
 exports.createOrder = async (req, res) => {
     try {
-        const { restaurantId, items } = req.body; // items: [{ menuItemId, quantity }]
+        const { restaurantId, items } = req.body;
         const userId = req.user.userId;
 
-        // Calculate total amount and verify items
         let totalAmount = 0;
         const orderItemsData = [];
 
@@ -53,7 +52,6 @@ exports.getOrders = async (req, res) => {
         if (userRole === 'CUSTOMER') {
             where.userId = userId;
         } else if (userRole === 'RESTAURANT_OWNER') {
-            // Find restaurants owned by user
             const restaurants = await prisma.restaurant.findMany({
                 where: { ownerId: userId },
                 select: { id: true }
@@ -61,7 +59,6 @@ exports.getOrders = async (req, res) => {
             const restaurantIds = restaurants.map(r => r.id);
             where.restaurantId = { in: restaurantIds };
         }
-        // Admin sees all (empty where)
 
         const orders = await prisma.order.findMany({
             where,
@@ -93,7 +90,6 @@ exports.updateOrderStatus = async (req, res) => {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        // Verify authorization
         if (req.user.role === 'RESTAURANT_OWNER') {
             if (order.restaurant.ownerId !== req.user.userId) {
                 return res.status(403).json({ message: 'Not authorized to update this order' });
@@ -159,7 +155,6 @@ exports.deleteOrder = async (req, res) => {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        // Only admin can delete
         if (req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Not authorized to delete orders' });
         }

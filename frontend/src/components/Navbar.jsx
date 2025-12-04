@@ -16,7 +16,6 @@ const Navbar = () => {
                         <span className="text-2xl font-bold text-gray-900">QuickBite</span>
                     </Link>
 
-                    {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-6">
                         <Link to="/restaurants" className="text-gray-700 hover:text-primary-600 font-medium">
                             Restaurants
@@ -73,7 +72,6 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <button
                         className="md:hidden text-gray-700"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -82,7 +80,6 @@ const Navbar = () => {
                     </button>
                 </div>
 
-                {/* Mobile Menu */}
                 {mobileMenuOpen && (
                     <div className="md:hidden border-t py-4 space-y-3">
                         <Link

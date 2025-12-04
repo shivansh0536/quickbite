@@ -5,16 +5,13 @@ exports.register = async (req, res) => {
     try {
         const { name, email, password, role, address, phone } = req.body;
 
-        // Check if user exists
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        // Hash password
         const hashedPassword = await hashPassword(password);
 
-        // Create user
         const user = await prisma.user.create({
             data: {
                 name,
@@ -26,7 +23,6 @@ exports.register = async (req, res) => {
             }
         });
 
-        // Generate token
         const token = generateToken(user.id, user.role);
 
         res.status(201).json({
@@ -49,19 +45,16 @@ exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Check user
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        // Check password
         const isMatch = await comparePassword(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        // Generate token
         const token = generateToken(user.id, user.role);
 
         res.json({
@@ -113,7 +106,6 @@ exports.updateProfile = async (req, res) => {
         const userId = req.user.userId;
         const { name, email, phone, address } = req.body;
 
-        // Check if email is already taken by another user
         if (email) {
             const existingUser = await prisma.user.findUnique({ where: { email } });
             if (existingUser && existingUser.id !== userId) {
@@ -153,22 +145,18 @@ exports.changePassword = async (req, res) => {
             return res.status(400).json({ message: 'Old password and new password are required' });
         }
 
-        // Get user with password
         const user = await prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Verify old password
         const isMatch = await comparePassword(oldPassword, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Current password is incorrect' });
         }
 
-        // Hash new password
         const hashedPassword = await hashPassword(newPassword);
 
-        // Update password
         await prisma.user.update({
             where: { id: userId },
             data: { password: hashedPassword }
@@ -185,7 +173,6 @@ exports.deleteAccount = async (req, res) => {
     try {
         const userId = req.user.userId;
 
-        // Delete user (cascade will handle related data)
         await prisma.user.delete({
             where: { id: userId }
         });

@@ -4,7 +4,6 @@ exports.addMenuItem = async (req, res) => {
     try {
         const { name, description, price, category, imageUrl, restaurantId } = req.body;
 
-        // Verify ownership of the restaurant
         const restaurant = await prisma.restaurant.findUnique({
             where: { id: restaurantId }
         });

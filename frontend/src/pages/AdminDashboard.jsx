@@ -35,7 +35,6 @@ const AdminDashboard = () => {
                     setOrders(ordersRes.data);
                     break;
                 case 'menu':
-                    // Get all menu items from all restaurants
                     const allRestaurants = await api.get('/restaurants?limit=100');
                     const allMenuItems = [];
                     for (const restaurant of allRestaurants.data.restaurants) {
@@ -105,7 +104,6 @@ const AdminDashboard = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
 
-                {/* Tabs */}
                 <div className="bg-white rounded-lg shadow-md mb-6">
                     <div className="flex border-b overflow-x-auto">
                         {tabs.map((tab) => {
@@ -128,7 +126,6 @@ const AdminDashboard = () => {
                     </div>
                 </div>
 
-                {/* Content */}
                 <div className="bg-white rounded-lg shadow-md p-6">
                     {loading ? (
                         <div className="flex justify-center py-12">
@@ -213,7 +210,6 @@ const RestaurantsTab = ({ restaurants, onDelete, onRefresh }) => {
                     <span>Add Restaurant</span>
                 </button>
             </div>
-            {/* Desktop Table View */}
             <div className="hidden md:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -246,7 +242,6 @@ const RestaurantsTab = ({ restaurants, onDelete, onRefresh }) => {
                 </table>
             </div>
 
-            {/* Mobile Card View */}
             <div className="md:hidden space-y-4">
                 {restaurants.map((restaurant) => (
                     <div key={restaurant.id} className="bg-white border rounded-lg p-4">
@@ -270,7 +265,6 @@ const RestaurantsTab = ({ restaurants, onDelete, onRefresh }) => {
                 ))}
             </div>
 
-            {/* Create Restaurant Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
@@ -386,7 +380,6 @@ const UsersTab = ({ users, onDelete, onRefresh }) => {
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Users ({users.length})</h2>
             </div>
-            {/* Desktop Table */}
             <div className="hidden md:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -551,7 +544,6 @@ const MenuTab = ({ menuItems, onDelete, onRefresh }) => {
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Menu Items ({menuItems.length})</h2>
             </div>
-            {/* Desktop Table */}
             <div className="hidden md:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">

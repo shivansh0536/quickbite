@@ -51,7 +51,6 @@ exports.deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
 
-        // Don't allow deleting yourself
         if (userId === req.user.userId) {
             return res.status(400).json({ message: 'Cannot delete your own account' });
         }

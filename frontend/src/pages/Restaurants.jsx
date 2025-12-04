@@ -44,7 +44,6 @@ const Restaurants = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-4xl font-bold mb-8">Restaurants</h1>
 
-                {/* Filters */}
                 <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                     <div className="grid md:grid-cols-4 gap-4">
                         <div className="relative md:col-span-2">
@@ -88,7 +87,6 @@ const Restaurants = () => {
                     </div>
                 </div>
 
-                {/* Restaurant Grid */}
                 {loading ? (
                     <div className="flex justify-center py-12">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
