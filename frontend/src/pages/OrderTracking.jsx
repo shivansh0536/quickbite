@@ -13,20 +13,24 @@ const OrderTracking = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchOrderTracking();
-    }, [id]);
+        const fetchOrderTracking = async () => {
+            try {
+                console.log('Fetching order tracking for ID:', id);
+                const response = await api.get(`/orders/${id}/track`);
+                console.log('Order tracking response:', response.data);
+                setOrder(response.data);
+            } catch (error) {
+                console.error('Error fetching order tracking:', error);
+                console.error('Error response:', error.response?.data);
+                toast.error(error.response?.data?.message || 'Failed to fetch order details');
+                navigate('/orders');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const fetchOrderTracking = async () => {
-        try {
-            const response = await api.get(`/orders/${id}/track`);
-            setOrder(response.data);
-        } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to fetch order details');
-            navigate('/orders');
-        } finally {
-            setLoading(false);
-        }
-    };
+        fetchOrderTracking();
+    }, [id, navigate]);
 
     const getStatusStep = (status) => {
         const steps = ['PENDING', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED'];

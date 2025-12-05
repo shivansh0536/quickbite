@@ -149,6 +149,8 @@ exports.getOrderTracking = async (req, res) => {
         const userId = req.user.userId;
         const userRole = req.user.role;
 
+        console.log('Tracking order:', id, 'for user:', userId, 'role:', userRole);
+
         const order = await prisma.order.findUnique({
             where: { id },
             include: {
@@ -172,18 +174,21 @@ exports.getOrderTracking = async (req, res) => {
             }
         });
 
+        console.log('Order found:', order ? 'Yes' : 'No');
+
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
 
         if (userRole !== 'ADMIN' && order.userId !== userId) {
+            console.log('Authorization failed - order.userId:', order.userId, 'userId:', userId);
             return res.status(403).json({ message: 'Not authorized to view this order' });
         }
 
         res.json(order);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Error in getOrderTracking:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
 
