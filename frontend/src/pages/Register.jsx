@@ -37,6 +37,12 @@ const Register = () => {
         setLoading(false);
     };
 
+    const handleGoogleSignup = () => {
+        const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+        const baseUrl = backendUrl.replace('/api', '');
+        window.location.href = `${baseUrl}/api/auth/google`;
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-orange-100 py-12 px-4">
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
