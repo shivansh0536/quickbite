@@ -46,10 +46,7 @@ const Register = () => {
                 </div>
 
                 <button
-                    onClick={() => {
-                        const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-                        window.location.href = `${backendUrl}/auth/google`;
-                    }}
+                    onClick={handleGoogleSignup}
                     className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors mb-6"
                 >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">
