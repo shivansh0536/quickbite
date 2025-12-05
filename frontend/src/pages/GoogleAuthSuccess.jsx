@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 
 const GoogleAuthSuccess = () => {
     const navigate = useNavigate();
-    const { setUser, setToken } = useAuth();
+    const { setUser } = useAuth();
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
@@ -19,7 +19,6 @@ const GoogleAuthSuccess = () => {
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user));
 
-                setToken(token);
                 setUser(user);
 
                 toast.success('Successfully signed in with Google!');
@@ -33,7 +32,7 @@ const GoogleAuthSuccess = () => {
             toast.error('Authentication failed');
             navigate('/login');
         }
-    }, [searchParams, navigate, setUser, setToken]);
+    }, [searchParams, navigate, setUser]);
 
     return (
         <div className="min-h-screen flex items-center justify-center">
