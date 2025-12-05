@@ -143,24 +143,60 @@ exports.cancelOrder = async (req, res) => {
     }
 };
 
-exports.deleteOrder = async (req, res) => {
+exports.getOrderTracking = async (req, res) => {
     try {
-        const orderId = req.params.id;
+        const { id } = req.params;
+        const userId = req.user.userId;
+        const userRole = req.user.role;
 
         const order = await prisma.order.findUnique({
-            where: { id: orderId }
+            where: { id },
+            include: {
+                restaurant: {
+                    select: {
+                        id: true,
+                        name: true,
+                        address: true,
+                        phone: true
+                    }
+                },
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        address: true,
+                        phone: true
+                    }
+                }
+            }
         });
 
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
 
+        if (userRole !== 'ADMIN' && order.userId !== userId) {
+            return res.status(403).json({ message: 'Not authorized to view this order' });
+        }
+
+        res.json(order);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+exports.deleteOrder = async (req, res) => {
+    try {
+        const { id } = req.params;
+
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Not authorized to delete orders' });
+            return res.status(403).json({ message: 'Only admins can delete orders' });
         }
 
         await prisma.order.delete({
-            where: { id: orderId }
+            where: { id }
         });
 
         res.json({ message: 'Order deleted successfully' });

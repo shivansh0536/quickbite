@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import { Package, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Package, Clock, CheckCircle, XCircle, MapPin } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Orders = () => {
+    const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -29,7 +31,7 @@ const Orders = () => {
         try {
             await api.patch(`/orders/${orderId}/cancel`);
             toast.success('Order cancelled successfully');
-            fetchOrders(); // Refresh list
+            fetchOrders();
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to cancel order');
         }
@@ -122,18 +124,26 @@ const Orders = () => {
                                     <span className="text-xl font-bold text-primary-600">
                                         ₹{order.totalAmount}
                                     </span>
-                                </div>
-
-                                {order.status === 'PENDING' && (
-                                    <div className="mt-4 flex justify-end">
-                                        <button
-                                            onClick={() => handleCancelOrder(order.id)}
-                                            className="text-red-600 hover:text-red-800 text-sm font-medium"
-                                        >
-                                            Cancel Order
-                                        </button>
+                                    <div className="flex gap-3">
+                                        {order.status !== 'CANCELLED' && order.status !== 'DELIVERED' && (
+                                            <button
+                                                onClick={() => navigate(`/orders/${order.id}/track`)}
+                                                className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                                            >
+                                                <MapPin size={18} />
+                                                Track Order
+                                            </button>
+                                        )}
+                                        {order.status === 'PENDING' && (
+                                            <button
+                                                onClick={() => handleCancelOrder(order.id)}
+                                                className="px-4 py-2 text-red-600 hover:text-red-800 border border-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                                            >
+                                                Cancel Order
+                                            </button>
+                                        )}
                                     </div>
-                                )}
+                                </div>
                             </div>
                         ))}
                     </div>

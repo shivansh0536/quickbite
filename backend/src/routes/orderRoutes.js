@@ -5,6 +5,7 @@ const { protect, authorize } = require('../middlewares/authMiddleware');
 
 router.post('/', protect, authorize('CUSTOMER'), orderController.createOrder);
 router.get('/', protect, orderController.getOrders);
+router.get('/:id/track', protect, orderController.getOrderTracking);
 router.patch('/:id/status', protect, authorize('RESTAURANT_OWNER', 'ADMIN'), orderController.updateOrderStatus);
 router.patch('/:id/cancel', protect, authorize('CUSTOMER'), orderController.cancelOrder);
 router.delete('/:id', protect, authorize('ADMIN'), orderController.deleteOrder);

@@ -11,6 +11,7 @@ import Restaurants from './pages/Restaurants';
 import RestaurantMenu from './pages/RestaurantMenu';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
+import OrderTracking from './pages/OrderTracking';
 import AdminDashboard from './pages/AdminDashboard';
 import Profile from './pages/Profile';
 import GoogleAuthSuccess from './pages/GoogleAuthSuccess';
@@ -42,6 +43,14 @@ function App() {
                 element={
                   <ProtectedRoute allowedRoles={['CUSTOMER']}>
                     <Orders />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/orders/:id/track"
+                element={
+                  <ProtectedRoute allowedRoles={['CUSTOMER']}>
+                    <OrderTracking />
                   </ProtectedRoute>
                 }
               />
