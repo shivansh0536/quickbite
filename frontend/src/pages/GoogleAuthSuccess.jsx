@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const GoogleAuthSuccess = () => {
-    const navigate = useNavigate();
     const { setUser } = useAuth();
     const [searchParams] = useSearchParams();
 
@@ -23,20 +22,28 @@ const GoogleAuthSuccess = () => {
                     setUser(user);
 
                     toast.success('Successfully signed in with Google!');
-                    navigate('/', { replace: true });
+
+                    // Use full page reload instead of React Router to avoid hydration issues
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 500);
                 } catch (error) {
                     console.error('Error parsing user data:', error);
                     toast.error('Authentication failed');
-                    navigate('/login', { replace: true });
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 500);
                 }
             } else {
                 toast.error('Authentication failed');
-                navigate('/login', { replace: true });
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 500);
             }
         };
 
         handleAuth();
-    }, [searchParams, navigate, setUser]);
+    }, [searchParams, setUser]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
