@@ -69,8 +69,8 @@ const Home = () => {
                 <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-gray-100">
                     <img
                         className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-                        src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1760&q=80"
-                        alt="Delicious food bowl"
+                        src="/hero-food.png"
+                        alt="Delicious gourmet food bowl"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-white to-transparent lg:via-white/20"></div>
                 </div>
