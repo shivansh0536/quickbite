@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -21,56 +22,59 @@ function App() {
     <Router>
       <AuthProvider>
         <CartProvider>
-          <div className="min-h-screen bg-gray-50">
+          <div className="min-h-screen bg-gray-50 flex flex-col">
             <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/auth/google/success" element={<GoogleAuthSuccess />} />
-              <Route path="/restaurants" element={<Restaurants />} />
-              <Route path="/restaurant/:id" element={<RestaurantMenu />} />
-              <Route
-                path="/cart"
-                element={
-                  <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                    <Cart />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/orders"
-                element={
-                  <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                    <Orders />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/orders/:id/track"
-                element={
-                  <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                    <OrderTracking />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute allowedRoles={['ADMIN']}>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute allowedRoles={['CUSTOMER', 'RESTAURANT_OWNER', 'ADMIN']}>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/auth/google/success" element={<GoogleAuthSuccess />} />
+                <Route path="/restaurants" element={<Restaurants />} />
+                <Route path="/restaurant/:id" element={<RestaurantMenu />} />
+                <Route
+                  path="/cart"
+                  element={
+                    <ProtectedRoute allowedRoles={['CUSTOMER']}>
+                      <Cart />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/orders"
+                  element={
+                    <ProtectedRoute allowedRoles={['CUSTOMER']}>
+                      <Orders />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/orders/:id/track"
+                  element={
+                    <ProtectedRoute allowedRoles={['CUSTOMER']}>
+                      <OrderTracking />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute allowedRoles={['ADMIN']}>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute allowedRoles={['CUSTOMER', 'RESTAURANT_OWNER', 'ADMIN']}>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </main>
+            <Footer />
             <Toaster position="top-right" />
           </div>
         </CartProvider>
