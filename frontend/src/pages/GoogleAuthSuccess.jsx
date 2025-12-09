@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -7,54 +7,39 @@ const GoogleAuthSuccess = () => {
     const navigate = useNavigate();
     const { setUser } = useAuth();
     const [searchParams] = useSearchParams();
-    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
-    }, []);
+        const handleAuth = async () => {
+            const token = searchParams.get('token');
+            const userStr = searchParams.get('user');
 
-    useEffect(() => {
-        if (!mounted) return;
+            if (token && userStr) {
+                try {
+                    const user = JSON.parse(decodeURIComponent(userStr));
 
-        const token = searchParams.get('token');
-        const userStr = searchParams.get('user');
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
 
-        if (token && userStr) {
-            try {
-                const user = JSON.parse(decodeURIComponent(userStr));
+                    setUser(user);
 
-                localStorage.setItem('token', token);
-                localStorage.setItem('user', JSON.stringify(user));
-
-                setUser(user);
-
-                toast.success('Successfully signed in with Google!');
-
-                // Delay navigation slightly to prevent hydration issues
-                setTimeout(() => {
-                    navigate('/');
-                }, 100);
-            } catch (error) {
-                console.error('Error parsing user data:', error);
+                    toast.success('Successfully signed in with Google!');
+                    navigate('/', { replace: true });
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                    toast.error('Authentication failed');
+                    navigate('/login', { replace: true });
+                }
+            } else {
                 toast.error('Authentication failed');
-                setTimeout(() => {
-                    navigate('/login');
-                }, 100);
+                navigate('/login', { replace: true });
             }
-        } else {
-            toast.error('Authentication failed');
-            setTimeout(() => {
-                navigate('/login');
-            }, 100);
-        }
-    }, [searchParams, navigate, setUser, mounted]);
+        };
 
-    if (!mounted) {
-        return null;
-    }
+        handleAuth();
+    }, [searchParams, navigate, setUser]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
                 <p className="mt-4 text-gray-600">Completing sign in...</p>
