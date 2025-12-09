@@ -5,6 +5,8 @@ import { Search, Star, MapPin, Clock, UtensilsCrossed } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { RestaurantCardSkeleton } from '../components/Skeleton';
 import EmptyState from '../components/EmptyState';
+import RatingStars from '../components/RatingStars';
+import CuisineTag from '../components/CuisineTag';
 
 const Restaurants = () => {
     const [restaurants, setRestaurants] = useState([]);
@@ -130,13 +132,12 @@ const Restaurants = () => {
                                             {restaurant.description || 'Delicious food awaits!'}
                                         </p>
                                         <div className="flex items-center justify-between text-sm text-gray-600">
-                                            <div className="flex items-center space-x-1">
-                                                <Star className="text-yellow-500 fill-current" size={16} />
+                                            <div className="flex items-center space-x-2">
+                                                <RatingStars rating={restaurant.rating} size={14} />
                                                 <span className="font-medium">{restaurant.rating.toFixed(1)}</span>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                                <MapPin size={16} />
-                                                <span className="truncate">{restaurant.cuisine}</span>
+                                                <CuisineTag cuisine={restaurant.cuisine} />
                                             </div>
                                         </div>
                                     </div>

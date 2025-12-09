@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
 import { useCart } from '../context/CartContext';
-import { Star, MapPin, Plus } from 'lucide-react';
+import { MapPin, Plus, Info, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { MenuItemSkeleton } from '../components/Skeleton';
+import RatingStars from '../components/RatingStars';
+import CuisineTag from '../components/CuisineTag';
 
 const RestaurantMenu = () => {
     const { id } = useParams();
@@ -31,12 +34,30 @@ const RestaurantMenu = () => {
 
     const handleAddToCart = (item) => {
         addToCart(item, restaurant.id, restaurant.name);
+        toast.success(`Added ${item.name} to cart`);
     };
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+            <div className="min-h-screen bg-gray-50 pb-12">
+                <div className="bg-white shadow-sm border-b">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-pulse">
+                        <div className="h-10 bg-gray-200 rounded w-1/3 mb-4"></div>
+                        <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div className="flex space-x-4">
+                            <div className="h-6 bg-gray-200 rounded w-24"></div>
+                            <div className="h-6 bg-gray-200 rounded w-32"></div>
+                        </div>
+                    </div>
+                </div>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div className="h-8 bg-gray-200 rounded w-32 mb-6"></div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+                        {[...Array(6)].map((_, i) => (
+                            <MenuItemSkeleton key={i} />
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }
@@ -44,77 +65,116 @@ const RestaurantMenu = () => {
     if (!restaurant) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <p className="text-gray-600">Restaurant not found</p>
+                <p className="text-gray-600 font-medium text-lg">Restaurant not found</p>
             </div>
         );
     }
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <div className="bg-white shadow-md">
+            {/* Restaurant Header */}
+            <div className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <h1 className="text-4xl font-bold mb-2">{restaurant.name}</h1>
-                            <p className="text-gray-600 mb-4">{restaurant.description}</p>
-                            <div className="flex items-center space-x-4 text-sm text-gray-600">
-                                <div className="flex items-center space-x-1">
-                                    <Star className="text-yellow-500 fill-current" size={18} />
-                                    <span className="font-medium">{restaurant.rating.toFixed(1)}</span>
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                        <div className="flex-1">
+                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{restaurant.name}</h1>
+                            <p className="text-gray-600 mb-4 text-lg">{restaurant.description}</p>
+
+                            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                                <div className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
+                                    <RatingStars rating={restaurant.rating} />
+                                    <span className="font-semibold text-gray-900">{restaurant.rating.toFixed(1)}</span>
                                 </div>
-                                <div className="flex items-center space-x-1">
-                                    <MapPin size={18} />
-                                    <span>{restaurant.cuisine}</span>
+                                <div className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
+                                    <MapPin size={16} className="text-gray-400" />
+                                    <span className="font-medium">{restaurant.address}</span>
                                 </div>
+                                <CuisineTag cuisine={restaurant.cuisine} className="px-3 py-1.5 text-sm" />
                             </div>
                         </div>
+                        {restaurant.imageUrl && (
+                            <div className="w-full md:w-48 h-32 md:h-48 rounded-xl overflow-hidden shadow-md flex-shrink-0">
+                                <img
+                                    src={restaurant.imageUrl}
+                                    alt={restaurant.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
 
+            {/* Menu Section */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <h2 className="text-2xl font-bold mb-6">Menu</h2>
+                <div className="flex items-center justify-between mb-8">
+                    <h2 className="text-2xl font-bold text-gray-900">Menu</h2>
+                    <span className="text-gray-500 text-sm">{menuItems.length} items</span>
+                </div>
 
                 {menuItems.length === 0 ? (
-                    <div className="text-center py-12">
-                        <p className="text-gray-600">No menu items available</p>
+                    <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100">
+                        <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Info className="text-gray-400" size={32} />
+                        </div>
+                        <h3 className="text-lg font-medium text-gray-900 mb-1">No menu items available</h3>
+                        <p className="text-gray-500">This restaurant hasn't added their menu yet.</p>
                     </div>
                 ) : (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid md:grid-cols-2 gap-6">
                         {menuItems.map((item) => (
-                            <div key={item.id} className="card p-4">
-                                <div className="flex justify-between items-start mb-3">
+                            <div
+                                key={item.id}
+                                className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-all duration-300 group"
+                            >
+                                <div className="flex gap-4">
                                     <div className="flex-1">
-                                        <h3 className="text-lg font-semibold mb-1">{item.name}</h3>
-                                        <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+                                        <div className="flex items-start justify-between mb-1">
+                                            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
+                                                {item.name}
+                                            </h3>
+                                            <span className="font-bold text-gray-900 bg-gray-50 px-2 py-1 rounded text-sm">
+                                                ₹{item.price}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-xs font-medium px-2 py-0.5 rounded bg-gray-100 text-gray-600">
+                                                {item.category}
+                                            </span>
+                                            {item.isVeg !== undefined && (
+                                                <span className={`w-4 h-4 border border-green-600 flex items-center justify-center flex-shrink-0 ${item.isVeg ? '' : 'border-red-600'}`}>
+                                                    <span className={`w-2 h-2 rounded-full ${item.isVeg ? 'bg-green-600' : 'bg-red-600'}`}></span>
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
                                             {item.description}
                                         </p>
-                                        <p className="text-primary-600 font-bold text-lg">
-                                            ₹{item.price}
-                                        </p>
+
+                                        {item.isAvailable ? (
+                                            <button
+                                                onClick={() => handleAddToCart(item)}
+                                                className="text-sm font-medium text-primary-600 hover:text-white hover:bg-primary-600 border border-primary-200 hover:border-primary-600 px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-1.5"
+                                            >
+                                                <Plus size={16} />
+                                                ADD
+                                            </button>
+                                        ) : (
+                                            <span className="text-sm font-medium text-red-500 bg-red-50 px-3 py-1.5 rounded-lg inline-block">
+                                                Sold Out
+                                            </span>
+                                        )}
                                     </div>
                                     {item.imageUrl && (
-                                        <img
-                                            src={item.imageUrl}
-                                            alt={item.name}
-                                            className="w-20 h-20 object-cover rounded-lg ml-3"
-                                        />
-                                    )}
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                                        {item.category}
-                                    </span>
-                                    {item.isAvailable ? (
-                                        <button
-                                            onClick={() => handleAddToCart(item)}
-                                            className="btn-primary py-1 px-3 text-sm flex items-center space-x-1"
-                                        >
-                                            <Plus size={16} />
-                                            <span>Add</span>
-                                        </button>
-                                    ) : (
-                                        <span className="text-red-500 text-sm font-medium">Unavailable</span>
+                                        <div className="w-32 h-32 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                                            <img
+                                                src={item.imageUrl}
+                                                alt={item.name}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                            />
+                                        </div>
                                     )}
                                 </div>
                             </div>

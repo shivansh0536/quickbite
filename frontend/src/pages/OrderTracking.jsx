@@ -5,6 +5,8 @@ import api from '../services/api';
 import toast from 'react-hot-toast';
 import { Package, Truck, CheckCircle, Clock, MapPin, Phone, Mail, ArrowLeft } from 'lucide-react';
 
+import TrackingSkeleton from '../components/TrackingSkeleton';
+
 const OrderTracking = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -69,11 +71,7 @@ const OrderTracking = () => {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-            </div>
-        );
+        return <TrackingSkeleton />;
     }
 
     if (!order) {
@@ -89,7 +87,7 @@ const OrderTracking = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <div className="min-h-screen bg-gray-50 py-8 page-enter">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <button
                     onClick={() => navigate('/orders')}
