@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { MenuItemSkeleton } from '../components/Skeleton';
 import RatingStars from '../components/RatingStars';
 import CuisineTag from '../components/CuisineTag';
+import AddToCartButton from '../components/AddToCartButton';
 
 const RestaurantMenu = () => {
     const { id } = useParams();
@@ -154,13 +155,7 @@ const RestaurantMenu = () => {
                                         </p>
 
                                         {item.isAvailable ? (
-                                            <button
-                                                onClick={() => handleAddToCart(item)}
-                                                className="text-sm font-medium text-primary-600 hover:text-white hover:bg-primary-600 border border-primary-200 hover:border-primary-600 px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-1.5"
-                                            >
-                                                <Plus size={16} />
-                                                ADD
-                                            </button>
+                                            <AddToCartButton onClick={() => handleAddToCart(item)} />
                                         ) : (
                                             <span className="text-sm font-medium text-red-500 bg-red-50 px-3 py-1.5 rounded-lg inline-block">
                                                 Sold Out
