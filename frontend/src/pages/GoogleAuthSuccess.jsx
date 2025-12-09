@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -7,8 +7,15 @@ const GoogleAuthSuccess = () => {
     const navigate = useNavigate();
     const { setUser } = useAuth();
     const [searchParams] = useSearchParams();
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
         const token = searchParams.get('token');
         const userStr = searchParams.get('user');
 
@@ -22,17 +29,29 @@ const GoogleAuthSuccess = () => {
                 setUser(user);
 
                 toast.success('Successfully signed in with Google!');
-                navigate('/');
+
+                // Delay navigation slightly to prevent hydration issues
+                setTimeout(() => {
+                    navigate('/');
+                }, 100);
             } catch (error) {
                 console.error('Error parsing user data:', error);
                 toast.error('Authentication failed');
-                navigate('/login');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 100);
             }
         } else {
             toast.error('Authentication failed');
-            navigate('/login');
+            setTimeout(() => {
+                navigate('/login');
+            }, 100);
         }
-    }, [searchParams, navigate, setUser]);
+    }, [searchParams, navigate, setUser, mounted]);
+
+    if (!mounted) {
+        return null;
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center">
