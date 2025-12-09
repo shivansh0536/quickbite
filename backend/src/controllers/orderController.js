@@ -159,7 +159,7 @@ exports.getOrderTracking = async (req, res) => {
                         id: true,
                         name: true,
                         address: true,
-                        phone: true
+                        cuisine: true
                     }
                 },
                 user: {
