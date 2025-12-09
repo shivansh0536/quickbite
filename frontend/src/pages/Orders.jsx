@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import { Package, Clock, CheckCircle, XCircle, MapPin } from 'lucide-react';
+import { Package, Clock, CheckCircle, XCircle, MapPin, ShoppingBag } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { OrderCardSkeleton } from '../components/Skeleton';
+import EmptyState from '../components/EmptyState';
+
 
 const Orders = () => {
     const navigate = useNavigate();
@@ -71,25 +74,27 @@ const Orders = () => {
         }
     };
 
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-            </div>
-        );
-    }
-
     return (
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold mb-8">My Orders</h1>
 
-                {orders.length === 0 ? (
-                    <div className="text-center py-12">
-                        <Package className="mx-auto text-gray-400 mb-4" size={64} />
-                        <p className="text-gray-600 text-lg">No orders yet</p>
+                {loading ? (
+                    <div className="space-y-4">
+                        {[...Array(3)].map((_, index) => (
+                            <OrderCardSkeleton key={index} />
+                        ))}
                     </div>
+                ) : orders.length === 0 ? (
+                    <EmptyState
+                        icon={ShoppingBag}
+                        title="No Orders Yet"
+                        description="You haven't placed any orders yet. Start exploring our restaurants and order your favorite food!"
+                        actionLabel="Browse Restaurants"
+                        onAction={() => navigate('/restaurants')}
+                    />
                 ) : (
+
                     <div className="space-y-4">
                         {orders.map((order) => (
                             <div key={order.id} className="card p-6">
