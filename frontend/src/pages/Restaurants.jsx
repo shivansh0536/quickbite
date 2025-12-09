@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import { Search, Star, MapPin, Clock } from 'lucide-react';
+import { Search, Star, MapPin, Clock, UtensilsCrossed } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { RestaurantCardSkeleton } from '../components/Skeleton';
+import EmptyState from '../components/EmptyState';
 
 const Restaurants = () => {
     const [restaurants, setRestaurants] = useState([]);
@@ -13,6 +15,7 @@ const Restaurants = () => {
     const [sortBy, setSortBy] = useState('newest');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchRestaurants();
@@ -53,48 +56,52 @@ const Restaurants = () => {
                                 placeholder="Search restaurants..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="input-field pl-10"
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Cuisine (e.g., Italian)"
+                        <select
                             value={cuisine}
                             onChange={(e) => setCuisine(e.target.value)}
-                            className="input-field"
-                        />
-                        <div className="flex gap-2">
-                            <select
-                                value={minRating}
-                                onChange={(e) => setMinRating(e.target.value)}
-                                className="input-field w-1/2"
-                            >
-                                <option value="">Rating</option>
-                                <option value="3">3+ Stars</option>
-                                <option value="4">4+ Stars</option>
-                                <option value="4.5">4.5+ Stars</option>
-                            </select>
-                            <select
-                                value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value)}
-                                className="input-field w-1/2"
-                            >
-                                <option value="newest">Newest</option>
-                                <option value="rating">Top Rated</option>
-                                <option value="name">Name (A-Z)</option>
-                            </select>
-                        </div>
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        >
+                            <option value="">All Cuisines</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Mexican">Mexican</option>
+                            <option value="Japanese">Japanese</option>
+                        </select>
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        >
+                            <option value="newest">Newest</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="name">Name (A-Z)</option>
+                        </select>
                     </div>
                 </div>
 
                 {loading ? (
-                    <div className="flex justify-center py-12">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[...Array(6)].map((_, index) => (
+                            <RestaurantCardSkeleton key={index} />
+                        ))}
                     </div>
                 ) : restaurants.length === 0 ? (
-                    <div className="text-center py-12">
-                        <p className="text-gray-600 text-lg">No restaurants found</p>
-                    </div>
+                    <EmptyState
+                        icon={UtensilsCrossed}
+                        title="No Restaurants Found"
+                        description="We couldn't find any restaurants matching your criteria. Try adjusting your filters or search terms."
+                        actionLabel="Clear Filters"
+                        onAction={() => {
+                            setSearch('');
+                            setCuisine('');
+                            setMinRating('');
+                            setSortBy('newest');
+                        }}
+                    />
                 ) : (
                     <>
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -102,7 +109,7 @@ const Restaurants = () => {
                                 <Link
                                     key={restaurant.id}
                                     to={`/restaurant/${restaurant.id}`}
-                                    className="card overflow-hidden hover:scale-105 transition-transform"
+                                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                                 >
                                     <div className="h-48 bg-gradient-to-br from-primary-400 to-orange-400 flex items-center justify-center">
                                         {restaurant.imageUrl ? (
@@ -125,7 +132,7 @@ const Restaurants = () => {
                                         <div className="flex items-center justify-between text-sm text-gray-600">
                                             <div className="flex items-center space-x-1">
                                                 <Star className="text-yellow-500 fill-current" size={16} />
-                                                <span>{restaurant.rating.toFixed(1)}</span>
+                                                <span className="font-medium">{restaurant.rating.toFixed(1)}</span>
                                             </div>
                                             <div className="flex items-center space-x-1">
                                                 <MapPin size={16} />
@@ -143,17 +150,17 @@ const Restaurants = () => {
                                 <button
                                     onClick={() => setPage(p => Math.max(1, p - 1))}
                                     disabled={page === 1}
-                                    className="btn-secondary disabled:opacity-50"
+                                    className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     Previous
                                 </button>
-                                <span className="py-2 px-4">
+                                <span className="py-2 px-4 bg-white border border-gray-300 rounded-lg">
                                     Page {page} of {totalPages}
                                 </span>
                                 <button
                                     onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                                     disabled={page === totalPages}
-                                    className="btn-secondary disabled:opacity-50"
+                                    className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     Next
                                 </button>
