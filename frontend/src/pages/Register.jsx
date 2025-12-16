@@ -46,11 +46,11 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-orange-100 py-12 px-4 page-enter">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 transform transition-all hover:shadow-2xl duration-300">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4 page-enter transition-colors duration-300">
+            <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transform transition-all hover:shadow-2xl duration-300">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>
-                    <p className="text-gray-600 mt-2">Join QuickBite today</p>
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Create Account</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">Join QuickBite today</p>
                 </div>
 
                 <Button
@@ -69,21 +69,21 @@ const Register = () => {
 
                 <div className="relative mb-6">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300"></div>
+                        <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-2 bg-white text-gray-500">Or register with email</span>
+                        <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Or register with email</span>
                     </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Role Selection Segmented Control */}
-                    <div className="p-1 bg-gray-100 rounded-lg flex mb-6">
+                    <div className="p-1 bg-gray-100 dark:bg-gray-700 rounded-lg flex mb-6">
                         <button
                             type="button"
                             className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${formData.role === 'CUSTOMER'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                ? 'bg-white dark:bg-gray-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                                 }`}
                             onClick={() => setFormData({ ...formData, role: 'CUSTOMER' })}
                         >
@@ -92,8 +92,8 @@ const Register = () => {
                         <button
                             type="button"
                             className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${formData.role === 'RESTAURANT_OWNER'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                ? 'bg-white dark:bg-gray-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                                 }`}
                             onClick={() => setFormData({ ...formData, role: 'RESTAURANT_OWNER' })}
                         >
@@ -163,9 +163,9 @@ const Register = () => {
                     </Button>
                 </form>
 
-                <p className="text-center text-sm text-gray-600 mt-6">
+                <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
                     Already have an account?{' '}
-                    <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
+                    <Link to="/login" className="text-primary-600 hover:text-primary-700 dark:text-primary-500 dark:hover:text-primary-400 font-medium">
                         Sign in
                     </Link>
                 </p>

@@ -51,11 +51,11 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-orange-100 py-12 px-4 page-enter">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 transform transition-all hover:shadow-2xl duration-300">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4 page-enter transition-colors duration-300">
+            <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transform transition-all hover:shadow-2xl duration-300">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-                    <p className="text-gray-600 mt-2">Sign in to your account</p>
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome Back</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">Sign in to your account</p>
                 </div>
 
                 <Button
@@ -74,10 +74,10 @@ const Login = () => {
 
                 <div className="relative mb-6">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300"></div>
+                        <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-2 bg-white text-gray-500">Or continue with email</span>
+                        <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Or continue with email</span>
                     </div>
                 </div>
 
@@ -112,7 +112,7 @@ const Login = () => {
                                 type="checkbox"
                                 className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                             />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 dark:text-gray-300">
                                 Remember me
                             </label>
                         </div>
@@ -134,9 +134,9 @@ const Login = () => {
                 </form>
 
                 <div className="mt-6 text-center">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                         Don't have an account?{' '}
-                        <Link to="/register" className="font-medium text-primary-600 hover:text-primary-500">
+                        <Link to="/register" className="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-500 dark:hover:text-primary-400">
                             Sign up
                         </Link>
                     </p>

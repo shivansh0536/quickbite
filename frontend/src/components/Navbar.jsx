@@ -2,24 +2,27 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ShoppingCart, User, LogOut, UtensilsCrossed, Menu, X, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <nav className="bg-white shadow-md sticky top-0 z-50">
+        <nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     <Link to="/" className="flex items-center space-x-2">
                         <UtensilsCrossed className="text-primary-600" size={32} />
-                        <span className="text-2xl font-bold text-gray-900">QuickBite</span>
+                        <span className="text-2xl font-bold text-gray-900 dark:text-white">QuickBite</span>
                     </Link>
 
                     <div className="hidden md:flex items-center space-x-6">
-                        <Link to="/restaurants" className="text-gray-700 hover:text-primary-600 font-medium">
+                        <Link to="/restaurants" className="text-gray-700 hover:text-primary-600 font-medium dark:text-gray-200 dark:hover:text-primary-400">
                             Restaurants
                         </Link>
+
+                        <ThemeToggle />
 
                         {user ? (
                             <>
@@ -91,15 +94,18 @@ const Navbar = () => {
                 {/* Mobile Menu Slide-over */}
                 <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
                     }`}>
-                    <div className="flex flex-col h-full">
-                        <div className="flex justify-between items-center p-4 border-b">
-                            <span className="text-xl font-bold text-gray-900">Menu</span>
-                            <button
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100"
-                            >
-                                <X size={24} />
-                            </button>
+                    <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+                        <div className="flex justify-between items-center p-4 border-b dark:border-gray-800">
+                            <span className="text-xl font-bold text-gray-900 dark:text-white">Menu</span>
+                            <div className="flex items-center gap-2">
+                                <ThemeToggle />
+                                <button
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+                                >
+                                    <X size={24} />
+                                </button>
+                            </div>
                         </div>
 
                         <div className="flex-1 overflow-y-auto py-4 px-2 space-y-1">

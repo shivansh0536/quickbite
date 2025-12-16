@@ -92,19 +92,19 @@ const Profile = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold mb-8">My Profile</h1>
+                <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">My Profile</h1>
 
-                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 transition-colors duration-300">
                     <div className="flex items-center space-x-2 mb-4">
-                        <User className="text-primary-600" size={24} />
-                        <h2 className="text-xl font-semibold">Profile Information</h2>
+                        <User className="text-primary-600 dark:text-primary-400" size={24} />
+                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Profile Information</h2>
                     </div>
                     <form onSubmit={handleProfileUpdate}>
                         <div className="grid md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Name
                                 </label>
                                 <input
@@ -116,7 +116,7 @@ const Profile = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Email
                                 </label>
                                 <input
@@ -128,7 +128,7 @@ const Profile = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Phone
                                 </label>
                                 <input
@@ -139,7 +139,7 @@ const Profile = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Address
                                 </label>
                                 <input
@@ -163,15 +163,15 @@ const Profile = () => {
                     </form>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 transition-colors duration-300">
                     <div className="flex items-center space-x-2 mb-4">
-                        <Lock className="text-primary-600" size={24} />
-                        <h2 className="text-xl font-semibold">Change Password</h2>
+                        <Lock className="text-primary-600 dark:text-primary-400" size={24} />
+                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Change Password</h2>
                     </div>
                     <form onSubmit={handlePasswordChange}>
                         <div className="space-y-4 max-w-md">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Current Password
                                 </label>
                                 <input
@@ -183,7 +183,7 @@ const Profile = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     New Password
                                 </label>
                                 <input
@@ -195,7 +195,7 @@ const Profile = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Confirm New Password
                                 </label>
                                 <input
@@ -219,12 +219,12 @@ const Profile = () => {
                     </form>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-md p-6 border-2 border-red-200">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-2 border-red-200 dark:border-red-900/50 transition-colors duration-300">
                     <div className="flex items-center space-x-2 mb-4">
-                        <Trash2 className="text-red-600" size={24} />
-                        <h2 className="text-xl font-semibold text-red-600">Danger Zone</h2>
+                        <Trash2 className="text-red-600 dark:text-red-500" size={24} />
+                        <h2 className="text-xl font-semibold text-red-600 dark:text-red-500">Danger Zone</h2>
                     </div>
-                    <p className="text-gray-600 mb-4">
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
                         Once you delete your account, there is no going back. Please be certain.
                     </p>
                     <button
@@ -237,10 +237,10 @@ const Profile = () => {
             </div>
 
             {showDeleteModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-md mx-4">
-                        <h3 className="text-xl font-bold mb-4">Delete Account</h3>
-                        <p className="text-gray-600 mb-6">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md mx-4 shadow-xl">
+                        <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Delete Account</h3>
+                        <p className="text-gray-600 dark:text-gray-400 mb-6">
                             Are you absolutely sure? This action cannot be undone. All your data will be permanently deleted.
                         </p>
                         <div className="flex space-x-4">

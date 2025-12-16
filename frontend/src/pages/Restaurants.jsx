@@ -45,11 +45,11 @@ const Restaurants = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-4xl font-bold mb-8">Restaurants</h1>
+                <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Restaurants</h1>
 
-                <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8 transition-colors duration-300">
                     <div className="grid md:grid-cols-4 gap-4">
                         <div className="relative md:col-span-2">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -58,13 +58,13 @@ const Restaurants = () => {
                                 placeholder="Search restaurants..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white dark:placeholder-gray-400"
                             />
                         </div>
                         <select
                             value={cuisine}
                             onChange={(e) => setCuisine(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                             <option value="">All Cuisines</option>
                             <option value="Italian">Italian</option>
@@ -76,7 +76,7 @@ const Restaurants = () => {
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                             <option value="newest">Newest</option>
                             <option value="rating">Highest Rated</option>
@@ -111,7 +111,7 @@ const Restaurants = () => {
                                 <Link
                                     key={restaurant.id}
                                     to={`/restaurant/${restaurant.id}`}
-                                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                                 >
                                     <div className="h-48 bg-gradient-to-br from-primary-400 to-orange-400 flex items-center justify-center">
                                         {restaurant.imageUrl ? (
@@ -127,11 +127,11 @@ const Restaurants = () => {
                                         )}
                                     </div>
                                     <div className="p-4">
-                                        <h3 className="text-xl font-semibold mb-2">{restaurant.name}</h3>
-                                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                                        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{restaurant.name}</h3>
+                                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">
                                             {restaurant.description || 'Delicious food awaits!'}
                                         </p>
-                                        <div className="flex items-center justify-between text-sm text-gray-600">
+                                        <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
                                             <div className="flex items-center space-x-2">
                                                 <RatingStars rating={restaurant.rating} size={14} />
                                                 <span className="font-medium">{restaurant.rating.toFixed(1)}</span>
@@ -151,17 +151,17 @@ const Restaurants = () => {
                                 <button
                                     onClick={() => setPage(p => Math.max(1, p - 1))}
                                     disabled={page === 1}
-                                    className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-gray-700 dark:text-gray-200"
                                 >
                                     Previous
                                 </button>
-                                <span className="py-2 px-4 bg-white border border-gray-300 rounded-lg">
+                                <span className="py-2 px-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200">
                                     Page {page} of {totalPages}
                                 </span>
                                 <button
                                     onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                                     disabled={page === totalPages}
-                                    className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-gray-700 dark:text-gray-200"
                                 >
                                     Next
                                 </button>

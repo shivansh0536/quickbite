@@ -30,18 +30,18 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-50 page-enter">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 page-enter transition-colors duration-300">
             {/* Hero Section */}
-            <div className="relative bg-white overflow-hidden">
+            <div className="relative bg-white dark:bg-gray-900 overflow-hidden transition-colors duration-300">
                 <div className="max-w-7xl mx-auto">
-                    <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-20 px-4 sm:px-6 lg:px-8">
+                    <div className="relative z-10 pb-8 bg-white dark:bg-gray-900 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
                         <main className="mt-10 mx-auto max-w-7xl sm:mt-12 md:mt-16 lg:mt-20 xl:mt-28">
                             <div className="sm:text-center lg:text-left">
-                                <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                                <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
                                     <span className="block xl:inline">Delicious food</span>{' '}
                                     <span className="block text-primary-600 xl:inline">delivered to you</span>
                                 </h1>
-                                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                <p className="mt-3 text-base text-gray-500 dark:text-gray-400 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                                     Order from your favorite local restaurants and get fresh food delivered to your doorstep in minutes. Experience the taste of convenience.
                                 </p>
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start gap-4">
@@ -56,7 +56,7 @@ const Home = () => {
                                     <div className="mt-3 sm:mt-0 sm:ml-3">
                                         <a
                                             href="#features"
-                                            className="w-full flex items-center justify-center px-8 py-3 border border-gray-200 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-all hover:border-gray-300"
+                                            className="w-full flex items-center justify-center px-8 py-3 border border-gray-200 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:py-4 md:text-lg md:px-10 transition-all hover:border-gray-300"
                                         >
                                             Learn More
                                         </a>
@@ -66,13 +66,13 @@ const Home = () => {
                         </main>
                     </div>
                 </div>
-                <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-gray-100">
+                <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
                     <img
                         className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
                         src="/hero-food.png"
                         alt="Delicious gourmet food bowl"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-white to-transparent lg:via-white/20"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-white to-transparent lg:via-white/20 dark:from-gray-900 dark:to-transparent dark:lg:via-gray-900/40"></div>
                 </div>
             </div>
 
@@ -120,8 +120,8 @@ const Home = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div className="flex justify-between items-end mb-8">
                     <div>
-                        <h2 className="text-3xl font-bold text-gray-900">Popular Restaurants</h2>
-                        <p className="mt-2 text-gray-600">Top rated by our customers</p>
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Popular Restaurants</h2>
+                        <p className="mt-2 text-gray-600 dark:text-gray-400">Top rated by our customers</p>
                     </div>
                     <Link to="/restaurants" className="hidden sm:flex items-center text-primary-600 font-medium hover:text-primary-700">
                         View all <ChevronRight size={20} />
@@ -131,7 +131,7 @@ const Home = () => {
                 {loading ? (
                     <div className="grid md:grid-cols-3 gap-8">
                         {[1, 2, 3].map((i) => (
-                            <div key={i} className="h-80 bg-gray-200 rounded-xl animate-pulse"></div>
+                            <div key={i} className="h-80 bg-gray-200 dark:bg-gray-800 rounded-xl animate-pulse"></div>
                         ))}
                     </div>
                 ) : (
@@ -140,7 +140,7 @@ const Home = () => {
                             <Link
                                 key={restaurant.id}
                                 to={`/restaurant/${restaurant.id}`}
-                                className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
+                                className="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
                             >
                                 <div className="h-48 overflow-hidden relative">
                                     <img
@@ -154,15 +154,15 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className="p-5">
-                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 transition-colors">
                                         {restaurant.name}
                                     </h3>
                                     <div className="flex items-center gap-2 mb-4">
                                         <CuisineTag cuisine={restaurant.cuisine} />
                                         <span className="text-gray-400 text-sm">•</span>
-                                        <span className="text-gray-500 text-sm">{restaurant.deliveryTime} mins</span>
+                                        <span className="text-gray-500 dark:text-gray-400 text-sm">{restaurant.deliveryTime} mins</span>
                                     </div>
-                                    <div className="flex items-center text-sm text-gray-500">
+                                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                                         <span className="truncate">{restaurant.address}</span>
                                     </div>
                                 </div>
@@ -179,40 +179,40 @@ const Home = () => {
             </div>
 
             {/* Features Section */}
-            <div id="features" className="bg-white py-16">
+            <div id="features" className="bg-white dark:bg-gray-900 py-16 transition-colors duration-300">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold text-gray-900">Why choose QuickBite?</h2>
-                        <p className="mt-4 text-xl text-gray-500">We make food delivery seamless and enjoyable</p>
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Why choose QuickBite?</h2>
+                        <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">We make food delivery seamless and enjoyable</p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
-                        <div className="p-8 bg-gray-50 rounded-2xl hover:bg-primary-50 transition-colors duration-300">
-                            <div className="bg-white w-14 h-14 rounded-xl shadow-sm flex items-center justify-center mb-6 text-primary-600">
+                        <div className="p-8 bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-colors duration-300">
+                            <div className="bg-white dark:bg-gray-700 w-14 h-14 rounded-xl shadow-sm flex items-center justify-center mb-6 text-primary-600 dark:text-primary-500">
                                 <Clock size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">Super Fast Delivery</h3>
-                            <p className="text-gray-600 leading-relaxed">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Super Fast Delivery</h3>
+                            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                                 Our delivery partners are always nearby, ensuring your food arrives hot and fresh within minutes of ordering.
                             </p>
                         </div>
 
-                        <div className="p-8 bg-gray-50 rounded-2xl hover:bg-primary-50 transition-colors duration-300">
-                            <div className="bg-white w-14 h-14 rounded-xl shadow-sm flex items-center justify-center mb-6 text-primary-600">
+                        <div className="p-8 bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-colors duration-300">
+                            <div className="bg-white dark:bg-gray-700 w-14 h-14 rounded-xl shadow-sm flex items-center justify-center mb-6 text-primary-600 dark:text-primary-500">
                                 <ShieldCheck size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">Safe & Secure</h3>
-                            <p className="text-gray-600 leading-relaxed">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Safe & Secure</h3>
+                            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                                 We prioritize your safety with contactless delivery options and strict hygiene standards for all our restaurant partners.
                             </p>
                         </div>
 
-                        <div className="p-8 bg-gray-50 rounded-2xl hover:bg-primary-50 transition-colors duration-300">
-                            <div className="bg-white w-14 h-14 rounded-xl shadow-sm flex items-center justify-center mb-6 text-primary-600">
+                        <div className="p-8 bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-colors duration-300">
+                            <div className="bg-white dark:bg-gray-700 w-14 h-14 rounded-xl shadow-sm flex items-center justify-center mb-6 text-primary-600 dark:text-primary-500">
                                 <Users size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">24/7 Support</h3>
-                            <p className="text-gray-600 leading-relaxed">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">24/7 Support</h3>
+                            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                                 Our dedicated customer support team is available round the clock to assist you with any queries or concerns.
                             </p>
                         </div>

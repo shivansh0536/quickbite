@@ -75,9 +75,9 @@ const Orders = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <div className="py-8 transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold mb-8">My Orders</h1>
+                <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">My Orders</h1>
 
                 {loading ? (
                     <div className="space-y-4">
@@ -97,11 +97,11 @@ const Orders = () => {
 
                     <div className="space-y-4">
                         {orders.map((order) => (
-                            <div key={order.id} className="card p-6">
+                            <div key={order.id} className="card p-6 border dark:border-gray-700 dark:bg-gray-800 transition-colors duration-300">
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
-                                        <h3 className="font-semibold text-lg">{order.restaurant.name}</h3>
-                                        <p className="text-sm text-gray-600">
+                                        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{order.restaurant.name}</h3>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
                                             {new Date(order.createdAt).toLocaleDateString()} at{' '}
                                             {new Date(order.createdAt).toLocaleTimeString()}
                                         </p>
@@ -114,9 +114,9 @@ const Orders = () => {
                                     </div>
                                 </div>
 
-                                <div className="border-t pt-4">
-                                    <h4 className="font-medium mb-2">Items:</h4>
-                                    <ul className="space-y-1 text-sm text-gray-600">
+                                <div className="border-t dark:border-gray-700 pt-4">
+                                    <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Items:</h4>
+                                    <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                                         {order.items.map((item, index) => (
                                             <li key={index}>
                                                 {item.quantity}x {item.name} - ₹{(item.price * item.quantity)}
@@ -125,8 +125,8 @@ const Orders = () => {
                                     </ul>
                                 </div>
 
-                                <div className="border-t mt-4 pt-4 flex justify-between items-center">
-                                    <span className="text-xl font-bold text-primary-600">
+                                <div className="border-t dark:border-gray-700 mt-4 pt-4 flex justify-between items-center">
+                                    <span className="text-xl font-bold text-primary-600 dark:text-primary-400">
                                         ₹{order.totalAmount}
                                     </span>
                                     <div className="flex gap-3">
@@ -142,7 +142,7 @@ const Orders = () => {
                                         {order.status === 'PENDING' && (
                                             <button
                                                 onClick={() => handleCancelOrder(order.id)}
-                                                className="px-4 py-2 text-red-600 hover:text-red-800 border border-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                                                className="px-4 py-2 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 border border-red-600 dark:border-red-500 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                                             >
                                                 Cancel Order
                                             </button>
@@ -154,7 +154,7 @@ const Orders = () => {
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 
